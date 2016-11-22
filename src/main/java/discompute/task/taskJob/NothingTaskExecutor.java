@@ -3,12 +3,9 @@ import discompute.task.TaskExecResult;
 import discompute.task.TaskExecutor;
 import discompute.flow.FlowContext;
 import discompute.flow.model.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class NothingTaskExecutor implements TaskExecutor {
 
-	private static Logger logger = LoggerFactory.getLogger(NothingTaskExecutor.class);
 
 
 	@Override
