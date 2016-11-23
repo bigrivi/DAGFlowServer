@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class Graph<T extends Node> implements Serializable {
 

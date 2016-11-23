@@ -8,12 +8,12 @@ import java.util.Vector;
 import java.util.concurrent.*;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class Flow extends FlowDefine<Task> {
 
 
-    private Vector<Task> activeTasks  = new Vector<Task>();
+    private Vector<Task> activeTasks  = new Vector<>();
 
     @Override
     public boolean init() {

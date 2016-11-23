@@ -3,7 +3,7 @@ package discompute.graph;
 import java.io.Serializable;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class Edge implements Serializable{
 

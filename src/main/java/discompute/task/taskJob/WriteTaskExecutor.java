@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class WriteTaskExecutor implements TaskExecutor {
     @Override

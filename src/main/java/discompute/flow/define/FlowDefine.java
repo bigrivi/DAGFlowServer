@@ -5,7 +5,7 @@ import discompute.graph.Node;
 import discompute.util.ExecuteStatus;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class FlowDefine<T extends Node> extends Graph<T> {
 

@@ -8,7 +8,7 @@ import discompute.task.TaskExecutor;
 import java.io.*;
 
 /**
- * Created by patrick on 2016/11/19.
+ * Created by wyj on 2016/11/19.
  */
 public class ReadAndWriteExecutor implements TaskExecutor {
     @Override
