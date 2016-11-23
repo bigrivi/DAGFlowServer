@@ -2,6 +2,8 @@ package discompute.flow.model;
 
 import com.google.common.collect.Lists;
 import discompute.flow.FlowEngine;
+import discompute.flow.Worker;
+import discompute.service.FlowClient;
 import discompute.task.TaskExecutor;
 import discompute.flow.FlowContext;
 import discompute.flow.define.TaskDefine;
@@ -28,14 +30,13 @@ public class Task extends TaskDefine<Task>{
 
     }
 
-    // 执行单个任务
-    public void execSingleTask(FlowContext flowContext) throws Exception {
+    //resign task
+    public void execSingleTask(FlowContext flowContext, Worker worker) throws Exception {
 
-        synchronized (this){
-            if(getUnPreparedParents().size() != 0 || !isPending) return ;
-            isPending = false;
-        }
-        taskExecutor.exec(this,flowContext);
+        FlowContext tmp = flowContext.deepClone();
+        tmp.setCurrentTask(this);
+        FlowClient.instance().call(tmp,worker);
+
     }
 
     public TaskExecutor getTaskExecutor() {
@@ -56,5 +57,13 @@ public class Task extends TaskDefine<Task>{
 
     public synchronized void removePreparedParents(Task task) {
         unPreparedParents.remove(task);
+    }
+
+    public boolean isPending() {
+        return isPending;
+    }
+
+    public void setPending(boolean pending) {
+        isPending = pending;
     }
 }

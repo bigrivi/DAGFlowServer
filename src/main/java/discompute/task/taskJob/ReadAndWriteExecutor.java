@@ -2,17 +2,18 @@ package discompute.task.taskJob;
 
 import discompute.flow.FlowContext;
 import discompute.flow.model.Task;
-import discompute.task.TaskExecResult;
 import discompute.task.TaskExecutor;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by wyj on 2016/11/19.
  */
 public class ReadAndWriteExecutor implements TaskExecutor {
     @Override
-    public TaskExecResult exec(Task task, FlowContext flowContext) throws Exception {
+    public Map<String, String> exec(Task task, FlowContext flowContext) throws Exception {
 
         System.out.println(task.getId() + "start");
 
@@ -44,6 +45,6 @@ public class ReadAndWriteExecutor implements TaskExecutor {
 
 
         System.out.println(task.getId() + "stop");
-        return null;
+        return new HashMap<String,String>();
     }
 }

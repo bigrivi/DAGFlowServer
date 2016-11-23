@@ -2,19 +2,20 @@ package discompute.task.taskJob;
 
 import discompute.flow.FlowContext;
 import discompute.flow.model.Task;
-import discompute.task.TaskExecResult;
 import discompute.task.TaskExecutor;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by wyj on 2016/11/19.
  */
 public class WriteTaskExecutor implements TaskExecutor {
     @Override
-    public TaskExecResult exec(Task task, FlowContext flowContext) throws Exception {
+    public Map<String,String> exec(Task task, FlowContext flowContext) throws Exception {
         System.out.println(task.getId() + "start");
         int i  = 0;
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(task.getScript())));
@@ -31,6 +32,6 @@ public class WriteTaskExecutor implements TaskExecutor {
         bufferedWriter.close();
 
         System.out.println(task.getId() + "stop");
-        return null;
+        return new HashMap<String,String>();
     }
 }

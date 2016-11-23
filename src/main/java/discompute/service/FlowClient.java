@@ -1,6 +1,7 @@
 package discompute.service;
 
 import discompute.flow.FlowContext;
+import discompute.flow.Worker;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -14,15 +15,19 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  * Created by wyj on 2016/11/22.
  */
 public class FlowClient {
-    private final String host;
-    private final int port;
+    private static FlowClient flowClient;
 
-    public FlowClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public static FlowClient instance(){
+        synchronized (FlowClient.class){
+            if(flowClient == null){
+                flowClient = new FlowClient();
+            }
+
+        }
+        return flowClient;
     }
 
-    public FlowContext call(FlowContext flowContext) throws Exception {
+    public FlowContext call(FlowContext flowContext, Worker worker)  {
         EventLoopGroup group = new NioEventLoopGroup();
         final FlowClientHandler flowClientHandler=new FlowClientHandler();
         Bootstrap bootstrap = new Bootstrap();
@@ -37,12 +42,20 @@ public class FlowClient {
                 pipeline.addLast("handler", flowClientHandler);
             }
         });
-        ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
-        channelFuture.channel().writeAndFlush(flowContext);
-        channelFuture.channel().closeFuture().sync();
-        group.shutdownGracefully().sync();
+        try {
+            ChannelFuture channelFuture = bootstrap.connect(worker.getHost(), worker.getPort()).sync();
+            System.out.println("client recieve job！！");
+            channelFuture.channel().writeAndFlush(flowContext);
+            channelFuture.channel().closeFuture().sync();
+            group.shutdownGracefully().sync();
 
-        return flowClientHandler.getFlowContext();
+            return flowClientHandler.getFlowContext();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
 
     }
 

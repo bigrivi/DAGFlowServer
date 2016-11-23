@@ -2,6 +2,7 @@ package discompute.flow;
 
 
 
+import com.google.common.collect.Lists;
 import discompute.task.TaskExecutor;
 import discompute.task.taskJob.NothingTaskExecutor;
 import discompute.flow.model.Flow;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class FlowEngine{
 
     private static Map<String,TaskExecutor> executorMap = new HashMap();
+    private static List<Worker> workers = Lists.newArrayList();
 
     static {
         registerTaskExecutor("nothing",new NothingTaskExecutor());
@@ -32,6 +34,18 @@ public class FlowEngine{
 
     public static  synchronized TaskExecutor getTaskExecutor(String expr){
         return executorMap.get(expr);
+    }
+
+    public static List<Worker> getWorkers() {
+        return workers;
+    }
+
+    public static void setWorkers(List<Worker> workers) {
+        FlowEngine.workers = workers;
+    }
+
+    public static void addWorkers(Worker worker) {
+        workers.add(worker);
     }
 
     public void fireFlow(Flow flow){

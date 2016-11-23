@@ -1,8 +1,14 @@
 package discompute.flow.model;
 
 import discompute.flow.FlowContext;
+import discompute.flow.FlowEngine;
+import discompute.flow.Worker;
 import discompute.flow.define.FlowDefine;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.*;
@@ -54,11 +60,9 @@ public class Flow extends FlowDefine<Task> {
     }
 
     public void finishFlow(FlowContext flowContext){
-        System.out.println( "task ----------------------------------------------start");
         ExecutorService finishFire = Executors.newFixedThreadPool(1);
         finishFire.execute(new ExecutorFinish(flowContext));
         finishFire.shutdown();
-        System.out.println( "task ----------------------------------------------stop");
     }
 
     private void execFlow(final List<Task> starts, final FlowContext flowContext) {
@@ -70,8 +74,18 @@ public class Flow extends FlowDefine<Task> {
                 @Override
                 public void run() {
                     try {
-                        task.execSingleTask(flowContext);
-                        //更新出度的状态
+                        synchronized (task){
+                            if(task.getUnPreparedParents().size() != 0 || !task.isPending()) return ;
+                            task.setPending(false);
+                        }
+
+                        //todo resign task
+                        int size = FlowEngine.getWorkers().size();
+                        Worker worker = FlowEngine.getWorkers().get((int) (Math.random() * size));
+
+
+                        task.execSingleTask(flowContext , worker);
+
                         for (Task child : task.getChildren()) {
                             child.removePreparedParents(task);
                             execFlow(task.getChildren(), flowContext);
