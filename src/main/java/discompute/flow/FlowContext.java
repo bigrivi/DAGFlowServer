@@ -62,13 +62,17 @@ public class FlowContext implements Serializable {
     }
 
     public FlowContext deepClone() throws Exception {
-        // write a dag object into an object output stream
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(this);
-        //read a dag object from an object input stream
+
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-        return (FlowContext) objectInputStream.readObject();
+        FlowContext flowContext =  (FlowContext) objectInputStream.readObject();
+
+        objectOutputStream.close();
+        objectInputStream.close();
+
+        return flowContext;
     }
 }
