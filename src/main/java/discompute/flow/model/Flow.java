@@ -5,10 +5,6 @@ import discompute.flow.FlowEngine;
 import discompute.flow.Worker;
 import discompute.flow.define.FlowDefine;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.*;
